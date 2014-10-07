@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<title>Going to Schiphol, by Mattia</title>
+<link rel="stylesheet" type="text/css" href="css/mystyle.css">
+</head>
+<body>
+
+<h1>Going to the airport, by Mattia</h1>
+
+This map shows all Dutch municipalities color-coded by journey time to the Schiphol airport, using public transportation only. <br>
+Moving the mouse on top of the different municipalities will show travel time and number of stopovers.
+<br>
+<br>
+CREDITS: <br>
+Data scraped from 9292.nl &nbsp || &nbsp 
+Inspired by <a href="http://bost.ocks.org/mike/map/">http://bost.ocks.org/mike/map/</a>   &nbsp || &nbsp 
+Municipalities (gemeenten) borders from  <a href="http://www.imergis.nl/asp/47.asp">http://www.imergis.nl/asp/47.asp</a>  
+<br>
+<br>
+
+<br>
+<br>
+<br>
+
+
+  <div id="container">
+    <div class="styled-select">
+    <select onchange="draw(topo)" id="metric">
+ 	  <option value="timeinminutes">Journey Time</option>
+   	<option  value="nchanges"># of stopovers</option>
+	</select>
+	</div>
+
+  </div>
+
+    <script src="http://d3js.org/colorbrewer.v1.min.js"></script>
+    <script src="d3/d3.min.js"></script>
+    <script src="d3/topojson.js"></script>
+    <script src="js/script_map.js"></script>
+    
+</body>
+

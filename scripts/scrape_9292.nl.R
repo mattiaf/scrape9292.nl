@@ -8,6 +8,17 @@ library(bitops)
 library(RCurl)
 library(XML)
 
+
+scrape9292<-function(place,url1,url2){
+        stringtourl<-tolower(place)
+        stringtourl<- gsub(" ","-",stringtourl)
+        url <- paste(url1,stringtourl, url2, sep="")
+        SOURCE <-  getURL(url,encoding="UTF-8")
+        PARSED <- htmlParse(SOURCE) #Format the html code 
+        a<-xpathSApply(PARSED, "//dd",xmlValue)
+        return(a)
+}
+
 # ----- Read table with list of municipalities ----- #
 #Straight from wikipedia, it includes the following columns:
 #gemeente  = municipality
@@ -50,7 +61,7 @@ usegemeente <- 0
 # Format of queries online is http://9292.nl/en/journeyadvice/ORIGIN/DESTINATION/DATEandTIME
 # We'll keep destination (Schiphol) and date/time fixed, and change the origin, according to the list of gemeenten
 url1 <- "http://9292.nl/reisadvies/" 
-url2 <- "/station-schiphol/vertrek/2014-09-15T1801"
+url2 <- "/station-schiphol/vertrek/2014-12-15T1801"
 
 # Cycle on municipalities 
 for (k in 1:length(data$gemeente)) {
@@ -61,38 +72,21 @@ for (k in 1:length(data$gemeente)) {
        	town_to_use <- data$hoofdplaats[k]
         if (data$hoofdplaats[k]==""){town_to_use <- data$biggest_town[k]} # for some reason there might be no capital listed, then use biggest town
         
-        # -- Scraping the Web --- #
-        #create URL we want to scrape
-        stringtourl<-tolower(town_to_use)
-        stringtourl<- gsub(" ","-",stringtourl)
-        url <- paste(url1,stringtourl, url2, sep="")
         
-        #get data from url
-        SOURCE <-  getURL(url,encoding="UTF-8")
-        PARSED <- htmlParse(SOURCE) # Format the html code 
-        a<-xpathSApply(PARSED, "//dd",xmlValue)  # find useful data
-        
-        
+        a<-scrape9292(town_to_use, url1, url2)
+                
+
         #if no data retrieved, try with name of the gemeente
         if (length(a) == 0 ) {
-                stringtourl<-tolower(data$gemeente[k])
-                stringtourl<- gsub(" ","-",stringtourl)
-                url <- paste(url1,stringtourl, url2, sep="")
-                SOURCE <-  getURL(url,encoding="UTF-8")
-                PARSED <- htmlParse(SOURCE) #Format the html code 
-                a<-xpathSApply(PARSED, "//dd",xmlValue)
+
+                a<-scrape9292(data$gemeente[k], url1, url2)
                 usegemeente <- usegemeente + 1  # just an index telling me how many times the code was here
         }
 
 
         #if no data retrieved, try with biggest town eiphenated with name of the province (like baarle-nassau-nb, Baarle-Nassau in Noord Brabaant) 
         if (length(a) == 0 ) {
-                stringtourl<- gsub(" ","-",data$biggest_town[k])
-                stringtourl<-tolower(paste(stringtourl, '-', as.character(data$provinceshort[k]) , sep = ""))
-                url <- paste(url1,stringtourl, url2, sep="")
-                SOURCE <-  getURL(url,encoding="UTF-8")
-                PARSED <- htmlParse(SOURCE) #Format the html code 
-                a<-xpathSApply(PARSED, "//dd",xmlValue)
+                a<-scrape9292(data$biggest_town[k], url1, url2)
                 addprovince <- addprovince +1  # just an index telling me how many times the code was here
         }
         
@@ -101,7 +95,7 @@ for (k in 1:length(data$gemeente)) {
         traveltime<-c(a[2],a[4],a[6],a[8]) # extract traveltime of the 4 solution that 9292.nl proposes
         changes<-c(a[1],a[3],a[5],a[7]) # extract number of changes of the 4 solution that 9292.nl proposes
 
-
+        print(traveltime)
 	# if we have data, add to table
         if (length(a) != 0 ) {
                 data$traveltime[k] <- min(traveltime) # add minimum traveltime (optimal solution)

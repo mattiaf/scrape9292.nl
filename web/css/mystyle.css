@@ -1,0 +1,85 @@
+.country{
+  stroke: #000;
+  stroke-width: 0.4px;
+  fill: #000
+}
+
+.highlight{
+  stroke: #fff;
+  stroke-width: 4.5px;
+}
+
+.texttitle{
+  font-size:40px;
+  text-transform:capitalize;
+}
+
+.text{
+  font-size:10px;
+  text-transform:capitalize;
+}
+
+  
+#container {
+ margin:10px 10%;
+  border:0px solid #000;
+  border-radius: 5px;
+  height: 800px;
+  width: 655px;
+
+  overflow:hidden;
+  background: #ADD8E6;
+}
+.hidden { 
+  display: none; 
+}
+div.tooltip {
+  color: #222; 
+  padding: .5em; 
+  text-shadow: #f5f5f5 0 1px 0;
+  border-radius: 2px; 
+  box-shadow: 0px 0px 2px 0px #a6a6a6; 
+  opacity: 0.9; 
+  position: absolute;
+  background: #f5f5f5; // #F0F8FF;
+
+}
+
+#legend {
+    padding: 1.5em 0 0 1.5em;
+}
+
+.pointmap {
+  fill: #fff; //;
+  stroke: #bbb;  opacity: 1.;
+  stroke-width: .5px;
+  stroke-opacity: 0;
+  r: 3pt;
+}
+.select-style {
+    border: 1px solid #ccc;
+    width: 120px;
+    border-radius: 3px;
+    overflow: hidden;
+    background: #fafafa url("img/icon-select.png") no-repeat 90% 50%;
+}
+
+.styled-select select {
+   background: transparent;
+   width: 268px;
+   padding: 5px;
+   font-size: 16px;
+   line-height: 1;
+   border: 0;
+   border-radius: 0;
+   height: 34px;
+   -webkit-appearance: none;
+   }
+
+.styled-select {
+   width: 240px;
+   height: 34px;
+   overflow: hidden;
+   background: url("new_arrow.png") no-repeat right #ddd;
+   border: 1px solid #ccc;
+   }
