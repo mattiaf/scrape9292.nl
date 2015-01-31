@@ -1,4 +1,6 @@
 scrape9292.nl
 =============
 
-new repo!
+R scripts are commented and self explanatory.
+
+d3/js comments in progress...
